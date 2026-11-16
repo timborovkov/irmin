@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-FROM node:26.13.0-alpine AS base
+FROM node:26.13.1-alpine AS base
 WORKDIR /app
 # Node 25+ official images no longer bundle Corepack. Install the packageManager-pinned pnpm.
 RUN npm install -g pnpm@11.18.0
@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # ---------- runner ----------
-FROM node:26.13.0-alpine AS runner
+FROM node:26.13.1-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PATH="/usr/local/go/bin:${PATH}"

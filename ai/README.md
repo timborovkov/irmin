@@ -412,7 +412,7 @@ docker compose down -v
 
 ### Dockerfile Usage
 
-The image is `node:26.13.0-alpine`. Node 25+ no longer bundles Corepack, so
+The image is `node:26.13.1-alpine`. Node 25+ no longer bundles Corepack, so
 the Dockerfile installs the `packageManager`-pinned pnpm (`pnpm@11.18.0`)
 with npm before `pnpm install`.
 
