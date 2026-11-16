@@ -3,7 +3,12 @@ packages:
 
 overrides:
   esbuild: 0.28.1
-  hono: 4.13.13
+  # Security: GHSA-4m76-xfj5-7975 and related hono advisories (>=4.13.16)
+  hono: 4.13.18
+  # Security: GHSA-rmxm-3fg6-px4f, GHSA-qv5m-9pm6-hqp3, GHSA-jpvv-r467-5p4w (>=2.1.6)
+  '@hono/node-server': 2.1.8
+  # Security: GHSA-g3hv-75wg-m249 (DoS via globparts; patched >=11.0.1)
+  minimatch: 11.0.5
   proxy-addr: 2.0.8
 
 allowBuilds:
