@@ -2,9 +2,9 @@
 
 # Node 25+ no longer bundles Corepack. Use the packageManager-pinned pnpm on PATH.
 PNPM := pnpm
-# golangci-lint v2.15.0's go.mod requests Go 1.26. Pin go1.27.3 so `go run` does
+# golangci-lint v2.15.0's go.mod requests Go 1.26. Pin go1.27.4 so `go run` does
 # not download go1.26.10 and typecheck the Go 1.27 standard library with it.
-GOLANGCI_LINT := GOTOOLCHAIN=go1.27.3 go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0
+GOLANGCI_LINT := GOTOOLCHAIN=go1.27.4 go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0
 
 validate: test-go lint-go validate-ai validate-console
 
