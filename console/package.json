@@ -112,7 +112,7 @@
     "@playwright/test": "^1.62.1",
     "@sentry/types": "^10.69.0",
     "@tailwindcss/postcss": "^4.3.5",
-    "@tanstack/eslint-plugin-query": "^5.101.4",
+    "@tanstack/eslint-plugin-query": "^5.108.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/eslint": "9.6.1",
     "@types/node": "^26.6.6",
