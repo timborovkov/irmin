@@ -3,9 +3,7 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "/console/Dockerfile",
-    "watchPatterns": [
-      "console/**"
-    ]
+    "watchPatterns": ["console/**"]
   },
   "deploy": {
     "sleepApplication": true,
