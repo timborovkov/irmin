@@ -27,6 +27,11 @@ absolute-from-repo-root path above (for example `/core/railway.json`). See
 `watchPatterns` in those files are relative to the **repository root** (not the
 service root), matching Railway's monorepo watch-path behaviour.
 
+`dockerfilePath` is resolved relative to the service **Root Directory**. With
+Root Directory `/console`, use `Dockerfile` (not `/console/Dockerfile`). The
+config file path remains repository-absolute and is a separate dashboard
+setting.
+
 Schema: [`https://railway.com/railway.schema.json`](https://railway.com/railway.schema.json).
 
 Encoded in each file today:
@@ -35,7 +40,7 @@ Encoded in each file today:
 | --- | --- | --- | --- | --- |
 | `irmin` | `NIXPACKS` | `core/**`, `sdks/go/**`, `go.work`, `go.work.sum` | on | — |
 | `irmin-ai` | `RAILPACK` | `ai/**` | on | — |
-| `irmin-console` | `DOCKERFILE` (`console/Dockerfile`) | `console/**` | on | `drainingSeconds` 15, `overlapSeconds` 10 |
+| `irmin-console` | `DOCKERFILE` (`Dockerfile` under the `/console` root) | `console/**` | on | `drainingSeconds` 15, `overlapSeconds` 10 |
 | `irmin-connectors` | `NIXPACKS` | `connectors/**`, `sdks/go/**`, `go.work`, `go.work.sum` | on | — |
 
 Public networking target ports (dashboard / `PORT` env, not in `railway.json`):
@@ -141,6 +146,12 @@ URL), not the raw Postgres public URL.
 - Healthcheck path: `/minio/health/ready`
 - Volume mount: `/data`
 - Root credentials: `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`
+- Expose the S3 API over a public HTTPS domain for browser traffic. Console
+  direct uploads (files above `NEXT_PUBLIC_PRESIGNED_UPLOAD_THRESHOLD_MB`)
+  `fetch` LakeFS staging URLs; those URLs must be reachable from the user's
+  browser. Keep a private endpoint for server-side LakeFS/Core traffic and set
+  LakeFS `LAKEFS_BLOCKSTORE_S3_PRE_SIGNED_ENDPOINT` to the public MinIO HTTPS
+  origin (see [LakeFS pre-signed URL docs](https://docs.lakefs.io/dev/security/presigned-url/)).
 
 Create buckets used by LakeFS and Core (historically `lakefs` and `irmin`).
 
@@ -205,7 +216,7 @@ Use dashboard references rather than pasting connection strings:
 | Connectors DB via PgBouncer | `DATABASE_CONNECTION_STRING=${{Connectors PgBouncer.DATABASE_URL}}` |
 | LakeFS DB | `LAKEFS_DATABASE_POSTGRES_CONNECTION_STRING=${{LakeFS Postgres.DATABASE_URL}}` |
 | MinIO / S3 | Core `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_ACCESS_SECRET` ← Bucket / MinIO vars |
-| LakeFS blockstore | `LAKEFS_BLOCKSTORE_S3_*` ← same MinIO credentials + private endpoint |
+| LakeFS blockstore | `LAKEFS_BLOCKSTORE_S3_*` ← MinIO credentials; private `LAKEFS_BLOCKSTORE_S3_ENDPOINT` for server traffic; public `LAKEFS_BLOCKSTORE_S3_PRE_SIGNED_ENDPOINT` for browser presigned uploads |
 | Qdrant | AI `QDRANT_URL` ← Qdrant private/public host; `QDRANT_API_KEY` ← `QDRANT__SERVICE__API_KEY` |
 | LakeFS → Core token | `LAKEFSACTIONS_IRMIN_API_TOKEN=${{irmin.TOKEN}}` |
 | Service origins | `AI_SERVICE_BASE_URL`, `IRMIN_API_BASE_URL`, `NEXT_PUBLIC_AI_API_URL`, `CONSOLE_URL`, `LAKE_FS_URL` ← `https://${{Service.RAILWAY_PUBLIC_DOMAIN}}` (origin only) |
