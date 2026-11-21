@@ -128,7 +128,10 @@ URL), not the raw Postgres public URL.
 - Own Postgres: `LAKEFS_DATABASE_TYPE=postgres` +
   `LAKEFS_DATABASE_POSTGRES_CONNECTION_STRING` → LakeFS Postgres
 - S3 blockstore on MinIO (`LAKEFS_BLOCKSTORE_TYPE=s3`, endpoint + credentials
-  pointing at the MinIO / Bucket service)
+  pointing at the MinIO / Bucket service). Set
+  `LAKEFS_BLOCKSTORE_S3_FORCE_PATH_STYLE=true` so requests use path-style
+  addressing against the private MinIO hostname (virtual-host style would look
+  up `lakefs.<minio-host>`, which does not resolve on Railway private DNS).
 - Encrypt secret: `LAKEFS_AUTH_ENCRYPT_SECRET_KEY`
 - Actions / Core webhook auth (required for Core-installed pre-commit and
   pre-merge hooks; same pattern as `core/docker-compose.yml`):
@@ -141,8 +144,9 @@ URL), not the raw Postgres public URL.
 #### MinIO Bucket
 
 - Image: `pgsty/minio` (pin a release tag in production)
-- Start command:
-  `minio server --address [::]:$MINIO_PRIVATE_PORT $RAILWAY_VOLUME_MOUNT_PATH`
+- Start command (wrap in a shell — Railway image start commands use exec form
+  and do not expand `$VAR` otherwise):
+  `/bin/sh -c "exec minio server --address [::]:$MINIO_PRIVATE_PORT $RAILWAY_VOLUME_MOUNT_PATH"`
 - Healthcheck path: `/minio/health/ready`
 - Volume mount: `/data`
 - Root credentials: `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`
@@ -158,7 +162,8 @@ Create buckets used by LakeFS and Core (historically `lakefs` and `irmin`).
 #### Optional: MinIO Console
 
 - Template / repo: `railwayapp-templates/minio-console`
-- Start command: `console server --host 0.0.0.0 --port $PORT`
+- Start command (shell-wrapped for `$PORT` expansion):
+  `/bin/sh -c "exec console server --host 0.0.0.0 --port $PORT"`
 - Healthcheck path: `/login`
 - Point `CONSOLE_MINIO_SERVER` at the MinIO private endpoint
 
@@ -216,7 +221,7 @@ Use dashboard references rather than pasting connection strings:
 | Connectors DB via PgBouncer | `DATABASE_CONNECTION_STRING=${{Connectors PgBouncer.DATABASE_URL}}` |
 | LakeFS DB | `LAKEFS_DATABASE_POSTGRES_CONNECTION_STRING=${{LakeFS Postgres.DATABASE_URL}}` |
 | MinIO / S3 | Core `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_ACCESS_SECRET` ← Bucket / MinIO vars |
-| LakeFS blockstore | `LAKEFS_BLOCKSTORE_S3_*` ← MinIO credentials; private `LAKEFS_BLOCKSTORE_S3_ENDPOINT` for server traffic; public `LAKEFS_BLOCKSTORE_S3_PRE_SIGNED_ENDPOINT` for browser presigned uploads |
+| LakeFS blockstore | `LAKEFS_BLOCKSTORE_S3_*` ← MinIO credentials; private `LAKEFS_BLOCKSTORE_S3_ENDPOINT` for server traffic; `LAKEFS_BLOCKSTORE_S3_FORCE_PATH_STYLE=true`; public `LAKEFS_BLOCKSTORE_S3_PRE_SIGNED_ENDPOINT` for browser presigned uploads |
 | Qdrant | AI `QDRANT_URL` ← Qdrant private/public host; `QDRANT_API_KEY` ← `QDRANT__SERVICE__API_KEY` |
 | LakeFS → Core token | `LAKEFSACTIONS_IRMIN_API_TOKEN=${{irmin.TOKEN}}` |
 | Service origins | `AI_SERVICE_BASE_URL`, `IRMIN_API_BASE_URL`, `NEXT_PUBLIC_AI_API_URL`, `CONSOLE_URL`, `LAKE_FS_URL` ← `https://${{Service.RAILWAY_PUBLIC_DOMAIN}}` (origin only) |
