@@ -1,0 +1,15 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "watchPatterns": [
+      "connectors/**",
+      "sdks/go/**",
+      "go.work",
+      "go.work.sum"
+    ]
+  },
+  "deploy": {
+    "sleepApplication": true
+  }
+}

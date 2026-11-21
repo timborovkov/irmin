@@ -73,6 +73,9 @@ SDK releases require their own compatibility review, language-specific tag,
 and publication workflow. The Go SDK uses `sdks/go/vX.Y.Z` repository tags;
 follow [docs/releasing-go-sdk.md](docs/releasing-go-sdk.md).
 
+Railway recreate steps, per-service `railway.json` paths, and env-var name
+lists (no values) are in [docs/deploy-railway.md](docs/deploy-railway.md).
+
 ## Documentation
 
 Keep root guidance accurate when repository shape or shared workflow changes.
