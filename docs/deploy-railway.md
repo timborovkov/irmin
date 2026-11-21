@@ -125,6 +125,13 @@ URL), not the raw Postgres public URL.
 - S3 blockstore on MinIO (`LAKEFS_BLOCKSTORE_TYPE=s3`, endpoint + credentials
   pointing at the MinIO / Bucket service)
 - Encrypt secret: `LAKEFS_AUTH_ENCRYPT_SECRET_KEY`
+- Actions / Core webhook auth (required for Core-installed pre-commit and
+  pre-merge hooks; same pattern as `core/docker-compose.yml`):
+  - `LAKEFS_ACTIONS_ENABLED=true`
+  - `LAKEFS_ACTIONS_ENV_ENABLED=true`
+  - `LAKEFS_ACTIONS_ENV_PREFIX=LAKEFSACTIONS_`
+  - `LAKEFSACTIONS_IRMIN_API_TOKEN` = Core `TOKEN` (use a Railway reference
+    such as `${{irmin.TOKEN}}`)
 
 #### MinIO Bucket
 
@@ -154,6 +161,7 @@ Never commit values. Prefer Railway reference variables
 | Purpose | Variables (must be identical values) |
 | --- | --- |
 | Core ↔ AI ↔ Connectors system auth | Core `TOKEN` = AI `IRMIN_SYSTEM_TOKEN` = Connectors `IRMIN_API_TOKEN` |
+| Core ↔ LakeFS action hooks | Core `TOKEN` = LakeFS `LAKEFSACTIONS_IRMIN_API_TOKEN` |
 | Core ↔ AI service auth | Core `AI_SERVICE_SYSTEM_TOKEN` = AI `AI_API_SYSTEM_TOKEN` |
 | Console → Core system calls | Console `API_SYSTEM_TOKEN` (same family as Core `TOKEN` when used for system API access) |
 
@@ -199,7 +207,9 @@ Use dashboard references rather than pasting connection strings:
 | MinIO / S3 | Core `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_ACCESS_SECRET` ← Bucket / MinIO vars |
 | LakeFS blockstore | `LAKEFS_BLOCKSTORE_S3_*` ← same MinIO credentials + private endpoint |
 | Qdrant | AI `QDRANT_URL` ← Qdrant private/public host; `QDRANT_API_KEY` ← `QDRANT__SERVICE__API_KEY` |
-| Service URLs | `AI_SERVICE_BASE_URL`, `IRMIN_API_BASE_URL`, `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_AI_API_URL`, `CONSOLE_URL`, `LAKE_FS_URL` ← `${{Service.RAILWAY_PUBLIC_DOMAIN}}` (with `https://` prefix) |
+| LakeFS → Core token | `LAKEFSACTIONS_IRMIN_API_TOKEN=${{irmin.TOKEN}}` |
+| Service origins | `AI_SERVICE_BASE_URL`, `IRMIN_API_BASE_URL`, `NEXT_PUBLIC_AI_API_URL`, `CONSOLE_URL`, `LAKE_FS_URL` ← `https://${{Service.RAILWAY_PUBLIC_DOMAIN}}` (origin only) |
+| Console Core API base | `NEXT_PUBLIC_API_URL=https://${{irmin.RAILWAY_PUBLIC_DOMAIN}}/api` (must include the `/api` prefix; Console appends `/v1/...` paths) |
 
 Exact Railway service display names must match the `${{Name.VAR}}` references
 you create.
