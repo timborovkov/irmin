@@ -54,7 +54,9 @@ never commit populated environment files:
     cp connectors/.env.example connectors/.env
 
 Existing deployments and runtime configuration remain project-specific. See
-the README in each project before running or deploying it.
+the README in each project before running or deploying it. To recreate the
+Railway deployment from this repository, follow
+[docs/deploy-railway.md](docs/deploy-railway.md).
 
 AI text and tool inference runs exclusively through OpenRouter. Direct OpenAI
 credentials in `ai/` remain embeddings-only; there is no direct model-provider
