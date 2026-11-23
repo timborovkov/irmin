@@ -4,7 +4,7 @@ go 1.27.4
 
 require (
 	github.com/IrminData/irmin-platform/sdks/go v0.1.1
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.114.10
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.116.0
 	github.com/clerk/clerk-sdk-go/v2 v2.9.0
 	github.com/daytonaio/daytona/libs/sdk-go v0.190.0
 	github.com/getsentry/sentry-go v0.50.0
@@ -21,7 +21,7 @@ require (
 	github.com/modelcontextprotocol/go-sdk v1.8.0
 	github.com/nguyenthenguyen/docx v0.0.0-20230621112118-9c8e795a11db
 	github.com/novuhq/novu-go v1.5.0
-	github.com/openai/openai-go/v3 v3.100.0
+	github.com/openai/openai-go/v3 v3.105.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/swaggo/swag v1.16.6
 	github.com/teambition/rrule-go v1.8.2
@@ -102,7 +102,7 @@ require (
 	github.com/segmentio/asm v1.2.1 // indirect
 	github.com/segmentio/encoding v0.5.4 // indirect
 	github.com/sqids/sqids-go v0.4.1 // indirect
-	github.com/tidwall/gjson v1.20.0 // indirect
+	github.com/tidwall/gjson v1.20.1 // indirect
 	github.com/tidwall/match v1.2.0 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tidwall/sjson v1.2.5 // indirect
