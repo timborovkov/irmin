@@ -5,7 +5,7 @@ go 1.27.4
 require (
 	github.com/IrminData/irmin-platform/sdks/go v0.1.1
 	github.com/getsentry/sentry-go v0.50.0
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/gofiber/fiber/v3 v3.7.0
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.13.0
