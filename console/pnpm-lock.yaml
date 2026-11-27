@@ -177,8 +177,8 @@ importers:
         specifier: ^0.18.1
         version: 0.18.1
       markdown-to-jsx:
-        specifier: ^9.10.1
-        version: 9.10.1(react@19.2.8)(solid-js@1.9.14)
+        specifier: ^9.11.0
+        version: 9.11.0(react@19.2.8)(solid-js@1.9.14)
       next:
         specifier: 16.4.6
         version: 16.4.6(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@playwright/test@1.62.1)(@types/node@26.6.6)(babel-plugin-macros@3.1.0)(babel-plugin-react-compiler@19.1.0-rc.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -5551,8 +5551,8 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
-  markdown-to-jsx@9.10.1:
-    resolution: {integrity: sha512-/fVJ8tKefGDQP40IONtD8O39V0sP0KkJmgkkFH1RBmPWKgnS6ljcOyUZ/ahEnQ3a3GsNZynM8KTR6b1n/6gFaQ==}
+  markdown-to-jsx@9.11.0:
+    resolution: {integrity: sha512-g9DFUSPOD0HkdY8F2d30w3XxL4OUhJXGO/MzqB8zPnh18AhANsDhr/da+R0idzIcBRpL7MZWi+aiD3x0sOb5LQ==}
     engines: {node: '>= 18'}
     peerDependencies:
       react: '>= 16.0.0'
@@ -12992,7 +12992,7 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  markdown-to-jsx@9.10.1(react@19.2.8)(solid-js@1.9.14):
+  markdown-to-jsx@9.11.0(react@19.2.8)(solid-js@1.9.14):
     optionalDependencies:
       react: 19.2.8
       solid-js: 1.9.14
