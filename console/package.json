@@ -45,7 +45,7 @@
     "@codemirror/lang-sql": "6.9.1",
     "@codemirror/view": "6.39.15",
     "@cyntler/react-doc-viewer": "^1.17.1",
-    "@langchain/core": "^1.2.4",
+    "@langchain/core": "^1.5.1",
     "@mdxeditor/editor": "^4.1.1",
     "@melloware/react-logviewer": "^6.5.5",
     "@microlink/react-json-view": "^1.31.43",
